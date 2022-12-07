@@ -6,9 +6,8 @@ with open('01-input.txt', 'r') as f:
 elves = [elf.strip().split('\n') for elf in elves]
 elves = [sum([int(x) for x in elf]) for elf in elves]
 
-solution['a'] = max(elves)
-
 elves.sort()
+solution['a'] = elves[-1]
 solution['b'] = sum(elves[-3:])
 
 print(solution)

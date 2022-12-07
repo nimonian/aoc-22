@@ -14,13 +14,13 @@ def priority(c):
 bags = getBags('./03-input-a.txt')
 for bag in bags:
     n = len(bag) // 2
-    c = set(bag[:n]).intersection(set(bag[n:])).pop()
+    c = (set(bag[:n]) & set(bag[n:])).pop()
     solution['a'] += priority(c)
 
 bags = getBags('./03-input-b.txt')
 for i in range(len(bags) // 3):
     b1, b2, b3 = bags[3*i: 3*(i+1)]
-    c = set(b1).intersection(set(b2)).intersection(set(b3)).pop()
+    c = (set(b1) & set(b2) & set(b3)).pop()
     solution['b'] += priority(c)
 
 print(solution)
