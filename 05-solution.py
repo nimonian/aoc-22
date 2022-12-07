@@ -1,6 +1,5 @@
 solution = {'a': '', 'b': ''}
 
-
 def getInput(path):
     with open(path, 'r') as f:
         txt = f.read().strip()
