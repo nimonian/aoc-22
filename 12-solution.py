@@ -24,15 +24,15 @@ with open('./12-input.txt', 'r') as f:
                 E = node
             M[-1].append(node)
 
-
+# add two tuples vector style, e.g. (1, 2) + (3, 4) = (4, 6)
 def v_add(u, v):
     return tuple(x + y for x, y in zip(u, v))
 
-
+# get the node dict at a given position in the map
 def get_node(p):
     return M[p[0]][p[1]]
 
-
+# get a list of all unvisited neighbours represented as nodes
 def get_neighbours(n):
     U = [(1, 0), (-1, 0), (0, 1), (0, -1)]
     N = [v_add(n['position'], u) for u in U]
@@ -42,8 +42,8 @@ def get_neighbours(n):
     N = [m for m in N if not m['visited']]
     return N
 
-
-def dijkstra():
+# do the hustle!
+def dijkstra_a():
     nodes = [P for r in M for P in r]
     while E['visited'] == False:
         nodes.sort(key=lambda n: n['distance'])
@@ -54,4 +54,6 @@ def dijkstra():
     return n['distance']
 
 
-print(dijkstra())
+solution['a'] = dijkstra_a()
+
+print(solution)
