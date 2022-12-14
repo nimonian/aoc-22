@@ -25,6 +25,7 @@ for (r, row) in enumerate(lines):
             E = node
         M[-1].append(node)
 
+
 def reset_map():
     for node in get_nodes(M):
         node['distance'] = math.inf
@@ -53,7 +54,7 @@ def get_neighbours(n):
     return N
 
 # do the hustle!
-def dijkstra(S = None):
+def dijkstra(S=None):
     nodes = get_nodes(M)
     if not S:
         S = next(filter(lambda n: n['char'] == 'S', nodes))
@@ -68,14 +69,21 @@ def dijkstra(S = None):
     reset_map()
     return d
 
+
 def a():
     return dijkstra()
 
+# this currenlty takes > 1hr :o
+# it can be improved by treating E as the start and doing
+# dijkstra's "original algorithm" (i.e. stop only when all nodes have)
+# been visited - this makes the shortest path from E to every node
+# in the map
 def b():
     res = math.inf
     for a in filter(lambda n: n['char'] in ['a', 'S'], get_nodes(M)):
         res = min(dijkstra(a), res)
     return res
+
 
 solution['a'] = a()
 solution['b'] = b()
