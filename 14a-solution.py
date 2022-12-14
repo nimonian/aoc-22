@@ -11,7 +11,7 @@ with open('./14-input.txt', 'r') as f:
         points = [eval(f'({point})') for point in line.split(' -> ')]
         for p, q in zip(points[:-1], points[1:]):
             if p[0] == q[0]:
-                rock |= {(p[0], y) # "A |= B" means "A = A union B"
+                rock |= {(p[0], y)  # "A |= B" means "A = A union B"
                          for y in range(min(p[1], q[1]), max(p[1], q[1]) + 1)}
             if p[1] == q[1]:
                 rock |= {(x, p[1])
@@ -20,6 +20,8 @@ with open('./14-input.txt', 'r') as f:
 bottom = max(p[1] for p in rock)
 
 # add tuples vector style, e.g. (1, 2) + (3, 4) = (4, 6)
+
+
 def v_add(u, v):
     return tuple(x + y for x, y in zip(u, v))
 
@@ -32,7 +34,7 @@ def drop_sand():
 
     while True:
         # if we can move down, do it!
-        if not v_add(p, d) in rock | sand: # | means union
+        if not v_add(p, d) in rock | sand:  # | means union
             p = v_add(p, d)
             # but if we drop below the bottom, stop the simulation:
             if p[1] == bottom:
@@ -55,7 +57,7 @@ def drop_sand():
         # so get out of the loop...
         sand.add(p)
         break
-    
+
     # ...and drop a new sand
     drop_sand()
 
