@@ -2,7 +2,6 @@ import math
 
 solution = {'a': 0, 'b': 0}
 
-
 with open('./12-input.txt', 'r') as f:
     lines = [l.strip() for l in f.readlines()]
 
@@ -21,27 +20,21 @@ for (r, row) in enumerate(lines):
             node['height'] = ord('a') - 96
         if char == 'E':
             node['height'] = ord('z') - 96
-            node['stop'] = True
             E = node
         M[-1].append(node)
 
-
-def reset_map():
-    for node in get_nodes(M):
-        node['distance'] = math.inf
-        node['visited'] = False
 
 # add two tuples vector style, e.g. (1, 2) + (3, 4) = (4, 6)
 def v_add(u, v):
     return tuple(x + y for x, y in zip(u, v))
 
-# get the node dict at a given position in the map
+# get the node at a given position in the map
 def get_node(p):
     return M[p[0]][p[1]]
 
 # flat map the map :/
 def get_nodes(M):
-    return [n for r in M for n in r]
+    return [node for row in M for node in row]
 
 # get a list of all unvisited neighbours represented as nodes
 def get_neighbours(n):
@@ -49,43 +42,25 @@ def get_neighbours(n):
     N = [v_add(n['position'], u) for u in U]
     N = [m for m in N if (0 <= m[0] < len(M)) and (0 <= m[1] < len(M[m[0]]))]
     N = [get_node(m) for m in N]
-    N = [m for m in N if m['height'] <= n['height'] + 1]
+    N = [m for m in N if m['height'] >= n['height'] - 1]
     N = [m for m in N if not m['visited']]
     return N
 
-# do the hustle!
-def dijkstra(S=None):
+# do the hustle! https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+def dijkstra():
     nodes = get_nodes(M)
-    if not S:
-        S = next(filter(lambda n: n['char'] == 'S', nodes))
-    S['distance'] = 0
-    while not E['visited']:
+    E['distance'] = 0
+    while len(nodes):
         nodes.sort(key=lambda n: n['distance'])
         n = nodes.pop(0)
         n['visited'] = True
         for m in get_neighbours(n):
             m['distance'] = min(m['distance'], n['distance'] + 1)
-    d = n['distance']
-    reset_map()
-    return d
 
+dijkstra()
 
-def a():
-    return dijkstra()
-
-# this currenlty takes > 1hr :o
-# it can be improved by treating E as the start and doing
-# dijkstra's "original algorithm" (i.e. stop only when all nodes have)
-# been visited - this makes the shortest path from E to every node
-# in the map
-def b():
-    res = math.inf
-    for a in filter(lambda n: n['char'] in ['a', 'S'], get_nodes(M)):
-        res = min(dijkstra(a), res)
-    return res
-
-
-solution['a'] = a()
-solution['b'] = b()
+nodes = get_nodes(M)
+solution['a'] = min([n['distance'] for n in nodes if n['char'] in ['S']])
+solution['b'] = min([n['distance'] for n in nodes if n['char'] in ['a', 'S']])
 
 print(solution)
