@@ -19,4 +19,5 @@ def score_b(game):
 solution['a'] = sum([score_a(game) for game in games])
 solution['b'] = sum([score_b(game) for game in games])
 
+# testing github.dev editor
 print(solution)
