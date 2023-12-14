@@ -1,21 +1,26 @@
-solution = {'a': 0, 'b': 0}
+import sys
+
+sys.setrecursionlimit(1500)
+
+solution = {"a": 0, "b": 0}
 
 rock = set()
 sand = set()
 
 # get the coordinates of all pieces of rock
-with open('./14-input.txt', 'r') as f:
+with open("./14-input.txt", "r") as f:
     lines = [l.strip() for l in f.readlines()]
 
     for line in lines:
-        points = [eval(f'({point})') for point in line.split(' -> ')]
+        points = [eval(f"({point})") for point in line.split(" -> ")]
         for p, q in zip(points[:-1], points[1:]):
             if p[0] == q[0]:
-                rock |= {(p[0], y)  # "A |= B" means "A = A union B"
-                         for y in range(min(p[1], q[1]), max(p[1], q[1]) + 1)}
+                rock |= {
+                    (p[0], y)  # "A |= B" means "A = A union B"
+                    for y in range(min(p[1], q[1]), max(p[1], q[1]) + 1)
+                }
             if p[1] == q[1]:
-                rock |= {(x, p[1])
-                         for x in range(min(p[0], q[0]), max(p[0], q[0]) + 1)}
+                rock |= {(x, p[1]) for x in range(min(p[0], q[0]), max(p[0], q[0]) + 1)}
 
 bottom = max(p[1] for p in rock)
 
